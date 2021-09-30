@@ -57,7 +57,7 @@ class Cashier:
 
     # Receives payment from customer, and adds the money to the stall's earnings.
     def receive_payment(self, stall, money):
-        stall.earning += money
+        stall.earnings += money
 
     # Places an order at the stall.
 	# The cashier pays the stall the cost.
@@ -74,11 +74,11 @@ class Cashier:
 
 ## Complete the Stall class here following the instructions in HW_4_instructions_rubric
 class Stall:
-    def __init__(self,name,inventory,cost=7,earning=0):
+    def __init__(self,name,inventory,cost=7,earnings=0):
         self.name = name
         self.inventory = inventory
         self.cost = cost
-        self.earning = earning
+        self.earnings = earnings
     def process_order(self,food_name,quantity):
         if self.has_item(food_name,quantity):
             self.inventory[food_name]-= quantity
@@ -102,7 +102,7 @@ class Stall:
         return total_cost
 
     def __str__(self):
-        return "Hello, we are " + self.name +". This is the current menu " + str(list(self.inventory.keys())) +". We charge $" + str(self.cost)+ " per item. We have $" + str(self.earning) +" in total. "
+        return "Hello, we are " + self.name +". This is the current menu " + str(list(self.inventory.keys())) +". We charge $" + str(self.cost)+ " per item. We have $" + str(self.earnings) +" in total. "
 
 class TestAllMethods(unittest.TestCase):
     
@@ -137,7 +137,7 @@ class TestAllMethods(unittest.TestCase):
     def test_truck_constructor(self):
         self.assertEqual(self.s1.name, "The Grill Queen")
         self.assertEqual(self.s1.inventory, {"Burger":40, "Taco":50})
-        self.assertEqual(self.s3.earning, 0)
+        self.assertEqual(self.s3.earnings, 0)
         self.assertEqual(self.s2.cost, 9)
 
 	# Check that the stall can stock up properly.
@@ -153,13 +153,13 @@ class TestAllMethods(unittest.TestCase):
     def test_make_payment(self):
 		# Check to see how much money there is prior to a payment
         previous_custormer_wallet = self.f2.wallet
-        previous_earnings_stall = self.s2.earning
+        previous_earnings_stall = self.s2.earnings
         
         self.f2.submit_order(self.c1, self.s2, 30)
 
 		# See if money has changed hands
         self.assertEqual(self.f2.wallet, previous_custormer_wallet - 30)
-        self.assertEqual(self.s2.earning, previous_earnings_stall + 30)
+        self.assertEqual(self.s2.earnings, previous_earnings_stall + 30)
 
 
 	# Check to see that the server can serve from the different stalls
